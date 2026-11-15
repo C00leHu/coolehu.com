@@ -1,29 +1,11 @@
 let hasUserInteracted = false;
 
-function initMedia() {
-  console.log("initMedia called");
-  const backgroundVideo = document.getElementById('background');
-  if (!backgroundVideo) {
-    console.error("Background video element not found");
-    return;
-  }
-  // Startet mit dem Slider-Standardwert (0.3 / 30% Lautstärke)
-  backgroundVideo.volume = 0.3;
-  backgroundVideo.muted = false; 
-
-  backgroundVideo.play().catch(err => {
-    console.error("Failed to play background video:", err);
-  });
-}
-
 document.addEventListener('DOMContentLoaded', () => {
   const startScreen = document.getElementById('start-screen');
   const startText = document.getElementById('start-text');
-  const profileName = document.getElementById('profile-name');
   const profileBio = document.getElementById('profile-bio');
   const resultsButtonContainer = document.getElementById('results-button-container');
   const resultsButton = document.getElementById('results-theme');
-  const volumeIcon = document.getElementById('volume-icon');
   const volumeSlider = document.getElementById('volume-slider');
   const transparencySlider = document.getElementById('transparency-slider');
   const backgroundVideo = document.getElementById('background');
@@ -33,37 +15,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const cppBar = document.getElementById('cpp-bar');
   const csharpBar = document.getElementById('csharp-bar');
 
+  // Video direkt starten (erzwingt die Wiedergabe)
+  if (backgroundVideo) {
+    backgroundVideo.play().catch(err => console.log("Video autoplay prevented:", err));
+  }
+
   const cursor = document.querySelector('.custom-cursor');
   const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
 
-  if (isTouchDevice) {
-    document.body.classList.add('touch-device');
-    document.addEventListener('touchstart', (e) => {
-      const touch = e.touches[0];
-      cursor.style.left = touch.clientX + 'px';
-      cursor.style.top = touch.clientY + 'px';
-      cursor.style.display = 'block';
-    });
-    document.addEventListener('touchmove', (e) => {
-      const touch = e.touches[0];
-      cursor.style.left = touch.clientX + 'px';
-      cursor.style.top = touch.clientY + 'px';
-      cursor.style.display = 'block';
-    });
-    document.addEventListener('touchend', () => {
-      cursor.style.display = 'none'; 
-    });
-  } else {
+  if (!isTouchDevice) {
     document.addEventListener('mousemove', (e) => {
       cursor.style.left = e.clientX + 'px';
       cursor.style.top = e.clientY + 'px';
       cursor.style.display = 'block';
-    });
-    document.addEventListener('mousedown', () => {
-      cursor.style.transform = 'scale(0.8) translate(-50%, -50%)';
-    });
-    document.addEventListener('mouseup', () => {
-      cursor.style.transform = 'scale(1) translate(-50%, -50%)';
     });
   }
 
@@ -84,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   setInterval(() => {
     startCursorVisible = !startCursorVisible;
-    if(startText) {
+    if (startText) {
       startText.textContent = startTextContent + (startCursorVisible ? '|' : ' ');
     }
   }, 500);
@@ -101,21 +65,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Start-Screen Interaktion (Video-Audio entsperren & UI einblenden)
+  // Start-Screen Klick: Schaltet den Ton des Videos frei & blendet UI ein
   startScreen.addEventListener('click', () => {
     hasUserInteracted = true;
     startScreen.classList.add('hidden');
     
     if (backgroundVideo) {
-      backgroundVideo.muted = false;
-      backgroundVideo.play().catch(e => console.log("Video audio play error:", e));
+      backgroundVideo.muted = false; // Ton einschalten nach Klick
+      backgroundVideo.volume = volumeSlider ? volumeSlider.value : 0.3;
+      backgroundVideo.play().catch(e => console.log("Video audio error:", e));
     }
 
-    // Zeige Profile und Skills-Button an
     gsap.to(profileBlock, { opacity: 1, duration: 1 });
     resultsButtonContainer.classList.remove('hidden');
-    
-    // Starte Bio-Typwriter
     typeWriterBio();
   });
 
@@ -143,26 +105,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Volume-Slider Steuerung (regelt jetzt direkt das Video-Audio)
+  // Lautstärke über den Slider steuern
   if (volumeSlider && backgroundVideo) {
     volumeSlider.addEventListener('input', (e) => {
-      const vol = e.target.value;
-      backgroundVideo.volume = vol;
-      if (vol > 0 && backgroundVideo.muted) {
+      backgroundVideo.volume = e.target.value;
+      if (e.target.value > 0 && backgroundVideo.muted) {
         backgroundVideo.muted = false;
       }
     });
   }
 
-  // Mute / Unmute per Klick auf das Volume-Icon
-  if (volumeIcon && backgroundVideo) {
-    volumeIcon.addEventListener('click', () => {
-      backgroundVideo.muted = !backgroundVideo.muted;
-      volumeIcon.style.opacity = backgroundVideo.muted ? '0.5' : '1';
-    });
-  }
-
-  // Transparenz-Slider Steuerung
+  // Transparenz-Slider
   if (transparencySlider) {
     transparencySlider.addEventListener('input', (e) => {
       const val = e.target.value;
