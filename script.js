@@ -2,14 +2,14 @@ let hasUserInteracted = false;
 
 function initMedia() {
   console.log("initMedia called");
-  const backgroundMusic = document.getElementById('background-music');
   const backgroundVideo = document.getElementById('background');
-  if (!backgroundMusic || !backgroundVideo) {
-    console.error("Media elements not found");
+  if (!backgroundVideo) {
+    console.error("Background video element not found");
     return;
   }
-  backgroundMusic.volume = 0.3;
-  backgroundVideo.muted = true; 
+  // Startet mit dem Slider-Standardwert (0.3 / 30% Lautstärke)
+  backgroundVideo.volume = 0.3;
+  backgroundVideo.muted = false; 
 
   backgroundVideo.play().catch(err => {
     console.error("Failed to play background video:", err);
@@ -21,12 +21,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const startText = document.getElementById('start-text');
   const profileName = document.getElementById('profile-name');
   const profileBio = document.getElementById('profile-bio');
-  const backgroundMusic = document.getElementById('background-music');
   const resultsButtonContainer = document.getElementById('results-button-container');
   const resultsButton = document.getElementById('results-theme');
   const volumeIcon = document.getElementById('volume-icon');
   const volumeSlider = document.getElementById('volume-slider');
   const transparencySlider = document.getElementById('transparency-slider');
+  const backgroundVideo = document.getElementById('background');
   const profileBlock = document.getElementById('profile-block');
   const skillsBlock = document.getElementById('skills-block');
   const pythonBar = document.getElementById('python-bar');
@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }, 500);
 
-  // Bio-Text auf chillige Slang-Begrüßungen geändert ("hi", "wsp", etc.)
+  // Bio-Text
   const bioText = "hi. wsp, just a dev building stuff and hanging out.";
   let bioIndex = 0;
 
@@ -101,13 +101,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Start-Screen Interaktion (Audio abspielen & UI einblenden)
+  // Start-Screen Interaktion (Video-Audio entsperren & UI einblenden)
   startScreen.addEventListener('click', () => {
     hasUserInteracted = true;
     startScreen.classList.add('hidden');
     
-    if (backgroundMusic) {
-      backgroundMusic.play().catch(e => console.log("Audio play error:", e));
+    if (backgroundVideo) {
+      backgroundVideo.muted = false;
+      backgroundVideo.play().catch(e => console.log("Video audio play error:", e));
     }
 
     // Zeige Profile und Skills-Button an
@@ -127,7 +128,6 @@ document.addEventListener('DOMContentLoaded', () => {
         profileBlock.classList.add('hidden');
         skillsBlock.classList.remove('hidden');
         gsap.to(skillsBlock, { opacity: 1, duration: 0.3 });
-        // Animation für Skill-Balken
         pythonBar.style.width = '87%';
         cppBar.style.width = '75%';
         csharpBar.style.width = '80%';
@@ -143,11 +143,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Volume-Slider Steuerung
-  if (volumeSlider) {
+  // Volume-Slider Steuerung (regelt jetzt direkt das Video-Audio)
+  if (volumeSlider && backgroundVideo) {
     volumeSlider.addEventListener('input', (e) => {
       const vol = e.target.value;
-      if (backgroundMusic) backgroundMusic.volume = vol;
+      backgroundVideo.volume = vol;
+      if (vol > 0 && backgroundVideo.muted) {
+        backgroundVideo.muted = false;
+      }
+    });
+  }
+
+  // Mute / Unmute per Klick auf das Volume-Icon
+  if (volumeIcon && backgroundVideo) {
+    volumeIcon.addEventListener('click', () => {
+      backgroundVideo.muted = !backgroundVideo.muted;
+      volumeIcon.style.opacity = backgroundVideo.muted ? '0.5' : '1';
     });
   }
 
