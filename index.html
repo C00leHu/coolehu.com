@@ -50,73 +50,17 @@
             pointer-events: none;
         }
 
-        .glitch-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 2;
-            opacity: 0;
-            transition: opacity 0.5s;
-        }
-
-        #hacker-overlay, #snow-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 3;
-        }
-
         .hidden {
             display: none !important;
         }
 
-        .controls {
-            position: fixed;
-            bottom: calc(50% - 240px - 10px);
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 10px;
-            z-index: 20;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 5px 10px;
-            border-radius: 20px;
-            backdrop-filter: blur(5px);
-        }
-
-        .theme-button {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            background-color: rgba(0, 0, 0, 0.5);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        .theme-button:hover {
-            transform: scale(1.1);
-            border-color: rgba(255, 255, 255, 0.8);
-        }
-
-        .volume-control {
+        .volume-control, .transparency-control {
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
-        .volume-icon {
+        .volume-icon, .transparency-icon {
             width: 20px;
             height: 20px;
             cursor: pointer;
@@ -142,18 +86,6 @@
             border-radius: 50%;
             background: white;
             cursor: pointer;
-        }
-
-        .transparency-control {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .transparency-icon {
-            width: 20px;
-            height: 20px;
-            color: white;
         }
 
         .top-controls {
@@ -187,9 +119,8 @@
             gap: 15px;
             backdrop-filter: blur(6px);
             opacity: 0;
-            transform-style: preserve-3d;
-            transition: transform 0.5s ease-out;
             pointer-events: auto;
+            border: 1px solid rgba(0, 195, 255, 0.5);
         }
 
         .profile-header {
@@ -204,18 +135,11 @@
             height: 150px;
         }
 
-        .profile-container.fast-orbit::after {
-            animation: fast-orbit 0.5s linear forwards;
-        }
-
         .profile-picture {
             width: 150px;
             height: 150px;
             border-radius: 50%;
             object-fit: cover;
-            cursor: pointer;
-            pointer-events: auto;
-            opacity: 1 !important;
         }
 
         .profile-info {
@@ -231,21 +155,12 @@
             margin-bottom: 10px;
         }
 
-        @font-face {
-            font-family: 'Angel Wish';
-            src: url('assets/Angel_wish.ttf') format('truetype');
-            font-weight: normal;
-            font-style: normal;
-        }
-
         #profile-name {
-            font-family: 'Angel Wish', sans-serif;
             font-size: 32px;
             font-weight: bold;
             letter-spacing: 3px;
             color: #fff;
             filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.7));
-            opacity: 1 !important;
         }
 
         .badge-group {
@@ -256,8 +171,6 @@
 
         .badge-container {
             position: relative;
-            pointer-events: auto;
-            opacity: 1 !important;
         }
 
         .badge-container .tooltip {
@@ -279,7 +192,7 @@
 
         .badge-container:hover .tooltip {
             visibility: visible;
-            opacity: 1 !important;
+            opacity: 1;
         }
 
         .badge-box {
@@ -301,8 +214,6 @@
             width: 22px;
             height: 22px;
             transition: transform 0.3s;
-            pointer-events: auto;
-            opacity: 1 !important;
         }
 
         .badge:hover {
@@ -314,14 +225,13 @@
             font-size: 18px;
             line-height: 1.5;
             margin-bottom: 10px;
-            opacity: 1 !important;
         }
 
         .bio-separator {
             width: 100%;
             height: 1px;
             margin: 20px 0;
-            opacity: 1 !important;
+            background: rgba(255, 255, 255, 0.2);
         }
 
         .profile-footer {
@@ -336,9 +246,6 @@
             display: flex;
             justify-content: center;
             gap: 12px;
-            margin-top: 0;
-            pointer-events: auto;
-            opacity: 1 !important;
         }
 
         .social-icon {
@@ -346,8 +253,6 @@
             height: 36px;
             transition: transform 0.3s ease;
             filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.7));
-            pointer-events: auto;
-            opacity: 1 !important;
         }
 
         .social-icon:hover {
@@ -369,8 +274,7 @@
             flex-direction: column;
             gap: 15px;
             backdrop-filter: blur(10px);
-            transform-style: preserve-3d;
-            transition: transform 0.5s ease-out;
+            border: 1px solid rgba(0, 195, 255, 0.5);
         }
 
         .skills-title {
@@ -411,17 +315,9 @@
             transition: width 2s;
         }
 
-        #python-bar {
-            background: linear-gradient(90deg, #ff6b6b, #ff9f9f);
-        }
-
-        #cpp-bar {
-            background: linear-gradient(90deg, #4facfe, #00f2fe);
-        }
-
-        #csharp-bar {
-            background: linear-gradient(90deg, #43e97b, #38f9d7);
-        }
+        #python-bar { background: linear-gradient(90deg, #ff6b6b, #ff9f9f); }
+        #cpp-bar { background: linear-gradient(90deg, #4facfe, #00f2fe); }
+        #csharp-bar { background: linear-gradient(90deg, #43e97b, #38f9d7); }
 
         #results-button-container {
             position: fixed;
@@ -449,79 +345,6 @@
             border-color: rgba(255, 255, 255, 0.8);
         }
 
-        #results-hint {
-            position: absolute;
-            background: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 8px 12px;
-            border-radius: 10px;
-            font-size: 12px;
-            width: 180px;
-            text-align: center;
-            pointer-events: none;
-            z-index: 25;
-            backdrop-filter: blur(15px);
-        }
-
-        #results-hint::before {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-width: 0 10px 10px 10px;
-            border-style: solid;
-            border-color: transparent transparent rgba(0, 0, 0, 0.8) transparent;
-        }
-
-        .home-theme #profile-block,
-        .home-theme #skills-block {
-            border-color: rgba(0, 195, 255, 0.5);
-        }
-
-        .hacker-theme #profile-block,
-        .hacker-theme #skills-block {
-            border-color: rgba(0, 255, 0, 0.5);
-        }
-
-        .rain-theme #profile-block,
-        .rain-theme #skills-block {
-            border-color: rgba(100, 149, 237, 0.5);
-        }
-
-        .anime-theme #profile-block,
-        .anime-theme #skills-block {
-            border-color: rgba(255, 0, 255, 0.5);
-        }
-
-        .car-theme #profile-block,
-        .car-theme #skills-block {
-            border-color: rgba(255, 165, 0, 0.5);
-        }
-
-        .glitch {
-            animation: glitch 0.2s ease-in-out;
-        }
-
-        @keyframes glitch {
-            0% { transform: translate(0); }
-            20% { transform: translate(-2px, 2px); }
-            40% { transform: translate(-2px, -2px); }
-            60% { transform: translate(2px, 2px); }
-            80% { transform: translate(2px, -2px); }
-            100% { transform: translate(0); }
-        }
-
-        @keyframes orbit {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        @keyframes fast-orbit {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
         #start-screen {
             position: fixed;
             top: 0;
@@ -543,161 +366,9 @@
             color: #fff;
             text-align: center;
         }
-
-        @media (max-width: 430px) {
-            #profile-block, #skills-block {
-                width: 90vw;
-                max-width: 350px;
-                min-height: 280px;
-                padding: 15px;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-            }
-
-            .profile-header {
-                flex-direction: column;
-                align-items: center;
-                gap: 10px;
-            }
-
-            .profile-container {
-                width: 120px;
-                height: 120px;
-            }
-
-            .profile-picture {
-                width: 120px;
-                height: 120px;
-            }
-
-            .profile-info {
-                align-items: center;
-                text-align: center;
-            }
-
-            .name-and-badges {
-                flex-direction: column;
-                align-items: center;
-                gap: 8px;
-            }
-
-            #profile-name {
-                font-size: 24px;
-                letter-spacing: 2px;
-            }
-
-            .badge-group {
-                justify-content: center;
-                gap: 6px;
-            }
-
-            .badge {
-                width: 18px;
-                height: 18px;
-            }
-
-            .badge-container .tooltip {
-                width: 100px;
-                font-size: 12px;
-                margin-left: -50px;
-                bottom: 110%;
-            }
-
-            #profile-bio {
-                font-size: 14px;
-                line-height: 1.4;
-            }
-
-            .bio-separator {
-                margin: 15px 0;
-            }
-
-            .social-links {
-                gap: 10px;
-                justify-content: center;
-            }
-
-            .social-icon {
-                width: 32px;
-                height: 32px;
-            }
-
-            .skills-title {
-                font-size: 18px;
-                margin-bottom: 10px;
-            }
-
-            .skill-icon {
-                width: 18px;
-                height: 18px;
-            }
-
-            .skill-name span {
-                font-size: 14px;
-            }
-
-            .controls {
-                bottom: 20px;
-                gap: 8px;
-                padding: 5px 8px;
-            }
-
-            .theme-button {
-                width: 28px;
-                height: 28px;
-                font-size: 12px;
-            }
-
-            .top-controls {
-                bottom: 70px;
-                gap: 10px;
-                padding: 6px 10px;
-            }
-
-            .volume-control, .transparency-control {
-                gap: 6px;
-            }
-
-            .volume-icon, .transparency-icon {
-                width: 18px;
-                height: 18px;
-            }
-
-            .slider {
-                width: 60px;
-                height: 4px;
-            }
-
-            .slider::-webkit-slider-thumb {
-                width: 10px;
-                height: 10px;
-            }
-
-            #results-button-container {
-                top: 10px;
-            }
-
-            #results-theme {
-                padding: 6px 12px;
-                font-size: 12px;
-            }
-
-            #results-hint {
-                width: 150px;
-                font-size: 10px;
-                padding: 6px 10px;
-            }
-
-            #start-text {
-                font-size: 18px;
-                padding: 0 20px;
-            }
-        }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Retro+Gaming&display=swap" rel="stylesheet">
 </head>
-<body class="home-theme" onload="initMedia()">
+<body class="home-theme">
     
     <div class="custom-cursor"></div>
 
@@ -707,13 +378,10 @@
 
     <div class="container">
         
+        <!-- Wichtig: 'muted' direkt im HTML, damit der Browser das Video sofort abspielt -->
         <video id="background" autoplay loop muted playsinline webkit-playsinline>
             <source src="assets/background.mp4" type="video/mp4">
         </video>
-
-        <div class="glitch-overlay"></div>
-        <div id="hacker-overlay" class="hidden"></div>
-        <div id="snow-overlay" class="hidden"></div>
 
         <div id="profile-block">
             <div class="profile-header">
@@ -802,7 +470,6 @@
 
         <div id="results-button-container" class="hidden">
             <button id="results-theme">View Skills</button>
-            <div id="results-hint" class="hidden">Click again to return to profile</div>
         </div>
 
         <div class="top-controls">
@@ -821,22 +488,6 @@
             </div>
         </div>
     </div>
-
-    <audio id="background-music" loop>
-        <source src="assets/background_music.mp3" type="audio/mp3">
-    </audio>
-    <audio id="hacker-music" loop muted>
-        <source src="assets/hacker_music.mp3" type="audio/mp3">
-    </audio>
-    <audio id="rain-music" loop muted>
-        <source src="assets/rain_music.mp3" type="audio/mp3">
-    </audio>
-    <audio id="anime-music" loop muted>
-        <source src="assets/anime_music.mp3" type="audio/mp3">
-    </audio>
-    <audio id="car-music" loop muted>
-        <source src="assets/car_music.mp3" type="audio/mp3">
-    </audio>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="script.js"></script>
