@@ -18,16 +18,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Use the local SVG background unless a real background video can play.
   if (backgroundVideo) {
-    backgroundVideo.addEventListener('playing', () => {
-      backgroundVideo.classList.add('is-playing');
-    });
+    const revealBackgroundVideo = () => {
+      if (!backgroundVideo.paused && backgroundVideo.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
+        backgroundVideo.classList.add('is-playing');
+      }
+    };
+
+    backgroundVideo.addEventListener('playing', revealBackgroundVideo);
     backgroundVideo.addEventListener('error', () => {
+      backgroundVideo.classList.remove('is-playing');
+      console.error('Background video failed to load:', backgroundVideo.error);
       if (volumeControl) volumeControl.classList.add('hidden');
     });
     if (backgroundVideo.error && volumeControl) {
       volumeControl.classList.add('hidden');
     }
-    backgroundVideo.play().catch(err => console.log("Video autoplay prevented:", err));
+    backgroundVideo.play()
+      .then(revealBackgroundVideo)
+      .catch(err => console.log("Video autoplay prevented:", err));
+    revealBackgroundVideo();
   }
 
   const cursor = document.querySelector('.custom-cursor');
