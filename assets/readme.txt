@@ -1,0 +1,1 @@
+background.mp4 is an empty placeholder. The site now uses background.svg until a playable MP4 is added here. Replace background.mp4 with a valid video to use it; the video and volume control will activate automatically when it can play.
