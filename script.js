@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }, 500);
 
   // Bio-Text
-  const bioText = "hi. wsp, just a dev building stuff and hanging out.";
+  const bioText = "hi wsp";
   let bioIndex = 0;
 
   function typeWriterBio() {
